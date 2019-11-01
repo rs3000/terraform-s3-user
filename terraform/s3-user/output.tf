@@ -27,3 +27,13 @@ output "iam_access_key_id" {
 output "iam_access_key_secret" {
   value = "${aws_iam_access_key.user_keys.secret}"
 }
+
+//the policy for Key Administrators
+output "key_admin_policy_arn" {
+  value = "${aws_iam_policy.admin.arn}"
+}
+
+//the policy for Key Users
+output "key_user_policy_arn" {
+  value = "${aws_iam_policy.user.arn}"
+}
