@@ -29,3 +29,9 @@ variable "multipart_delete" {
 variable "multipart_days" {
   default = 3
 }
+
+variable "root_account" {}
+
+variable "admin_principal" {}
+
+variable "user_principal" {}
