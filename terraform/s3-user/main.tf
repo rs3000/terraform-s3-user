@@ -115,8 +115,7 @@ resource "aws_kms_key" "kms_key" {
         "kms:Revoke*",
         "kms:Disable*",
         "kms:Get*",
-        "kms:Delete*",
-        "kms:ScheduleKeyDeletion",
+        "kms:DeleteAlias",
         "kms:CancelKeyDeletion"
       ],
       "Resource": "*"
