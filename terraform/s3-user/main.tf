@@ -2,7 +2,6 @@
  * A Terraform module that creates a tagged S3 bucket and an IAM user/key with access to the bucket
  */
 
-
 # we need a service account user
 resource "aws_iam_user" "user" {
   name = "srv_${var.bucket_name}"
@@ -10,7 +9,7 @@ resource "aws_iam_user" "user" {
 
 # generate keys for service account user
 resource "aws_iam_access_key" "user_keys" {
-  user = "${aws_iam_user.user.name}"
+  user = aws_iam_user.user.name
 }
 
 # generate a policy that can allow additional key users
@@ -48,6 +47,7 @@ resource "aws_iam_policy" "user" {
   ]
 }
 EOF
+
 }
 
 # generate a policy that can allow additional Key Administrators
@@ -82,6 +82,7 @@ resource "aws_iam_policy" "admin" {
   ]
 }
 EOF
+
 }
 
 # generate key used to encrypt bucket objects
@@ -151,36 +152,37 @@ resource "aws_kms_key" "kms_key" {
   ]
 }
 EOF
+
 }
 
 # create an s3 bucket
 resource "aws_s3_bucket" "bucket" {
-  bucket        = "${var.bucket_name}"
+  bucket        = var.bucket_name
   force_destroy = "true"
 
   versioning {
-    enabled = "${var.versioning}"
+    enabled = var.versioning
   }
 
-  tags {
-    team          = "${var.tag_team}"
-    application   = "${var.tag_application}"
-    environment   = "${var.tag_environment}"
-    contact-email = "${var.tag_contact-email}"
-    customer      = "${var.tag_customer}"
+  tags = {
+    team          = var.tag_team
+    application   = var.tag_application
+    environment   = var.tag_environment
+    contact-email = var.tag_contact-email
+    customer      = var.tag_customer
   }
 
-    lifecycle_rule {
-      id                                     = "auto-delete-incomplete-after-x-days"
-      prefix                                 = ""
-      enabled                                = "${var.multipart_delete}"
-      abort_incomplete_multipart_upload_days = "${var.multipart_days}"
-    }
+  lifecycle_rule {
+    id                                     = "auto-delete-incomplete-after-x-days"
+    prefix                                 = ""
+    enabled                                = var.multipart_delete
+    abort_incomplete_multipart_upload_days = var.multipart_days
+  }
 
-  server_side_encryption_configuration = {
-    rule = {
-      apply_server_side_encryption_by_default = {
-        kms_master_key_id = "${aws_kms_key.kms_key.arn}"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = aws_kms_key.kms_key.arn
         sse_algorithm     = "aws:kms"
       }
     }
@@ -189,7 +191,7 @@ resource "aws_s3_bucket" "bucket" {
 
 # grant user access to the bucket
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = "${aws_s3_bucket.bucket.id}"
+  bucket = aws_s3_bucket.bucket.id
 
   policy = <<EOF
 {
@@ -209,4 +211,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   ]
 }
 EOF
+
 }
+
