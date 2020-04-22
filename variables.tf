@@ -1,5 +1,6 @@
 //name of the bucket
-variable "bucket_name" {}
+variable "bucket_name" {
+}
 
 //enable versioning
 variable "versioning" {
@@ -7,19 +8,24 @@ variable "versioning" {
 }
 
 //environment
-variable "tag_environment" {}
+variable "tag_environment" {
+}
 
 //team
-variable "tag_team" {}
+variable "tag_team" {
+}
 
 //application
-variable "tag_application" {}
+variable "tag_application" {
+}
 
 //contact-email
-variable "tag_contact-email" {}
+variable "tag_contact-email" {
+}
 
 //customer
-variable "tag_customer" {}
+variable "tag_customer" {
+}
 
 //incomplete multipart upload deletion
 variable "multipart_delete" {
@@ -30,8 +36,12 @@ variable "multipart_days" {
   default = 3
 }
 
-variable "root_account" {}
+variable "root_account" {
+}
 
-variable "admin_principal" {}
+variable "admin_principal" {
+}
 
-variable "user_principal" {}
+variable "user_principal" {
+}
+
