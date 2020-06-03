@@ -153,6 +153,12 @@ resource "aws_kms_key" "kms_key" {
 }
 EOF
 
+  tags = {
+    environment   = var.tag_environment
+    customer      = var.tag_customer
+    cluster       = var.tag_cluster
+  }
+
 }
 
 # create an s3 bucket
@@ -170,6 +176,7 @@ resource "aws_s3_bucket" "bucket" {
     environment   = var.tag_environment
     contact-email = var.tag_contact-email
     customer      = var.tag_customer
+    cluster       = var.tag_cluster
   }
 
   lifecycle_rule {

@@ -27,6 +27,10 @@ variable "tag_contact-email" {
 variable "tag_customer" {
 }
 
+//cluster
+variable "tag_cluster" {
+}
+
 //incomplete multipart upload deletion
 variable "multipart_delete" {
   default = true
